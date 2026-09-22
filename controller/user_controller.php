@@ -9,12 +9,13 @@ class UserController extends Users
     {
         parent::__construct();
     }
-    
+
     public function index_users()
     {
 
         $users = $this->list_users();
         $roles = new Roles();
+
         $route_full = "{$this->route_view}/users.php";
         require_once($route_full);
     }
@@ -46,19 +47,23 @@ class UserController extends Users
 
     public function form_create_user()
     {
+        $this->id = isset($_REQUEST['user']) ? $_REQUEST['user'] : "0";
+        $users = $this->id > "0" ? $this->getUserById() : "0";
         $rol = new Roles();
         $roles = $rol->getAll();
+
         //print_r($roles);
         // Display the form for creating a new user
         require_once './views/users/user_form.php';
     }
-   
+
     public function create_user()
     {
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($_POST['password_hash'] != $_POST['password']) {
-                $message = ['type' => 'alert', 'message' => 'Password No Coincide', 'class' =>'a-danger'];
-               
+                $message = ['type' => 'alert', 'message' => 'Password No Coincide', 'class' => 'a-danger'];
+
                 header("location: index.php?controller=user&action=form_create_user&message={$message['message']}&cls={$message['class']}");
             } else {
                 try {
@@ -69,9 +74,11 @@ class UserController extends Users
                     $this->password_hash = $_POST['password_hash'];
                     $this->rol_id = $_POST['rol_id'];
                     $this->activo = $_POST['activo'];
+
                     $this->createUser();
-                    $message = ['type' => 'alert', 'message' => 'Usuario creado', 'class' =>'a-success'];
-               
+
+                    $message = ['type' => 'alert', 'message' => 'Usuario creado', 'class' => 'a-success'];
+
                     header("location: index.php?controller=user&action=form_create_user&message={$message['message']}&cls={$message['class']}");
                     //echo "User created successfully."; // change later for a view
                 } catch (Exception $e) {
@@ -80,6 +87,27 @@ class UserController extends Users
             }
         } else {
             die("Invalid request method. Please use POST.");
+        }
+    }
+
+    public function update_user()
+    {
+        try {
+            $this->id = $_POST['id'];
+            $this->nombre_completo = $_POST['nombre_completo'];
+            $this->email = $_POST['email'];
+         
+            $this->rol_id = $_POST['rol_id'];
+            $this->activo = $_POST['activo'];
+
+            $this->updateUser();
+
+            $message = ['type' => 'alert', 'message' => 'Usuario Actualizado', 'class' => 'a-success'];
+            
+            header("location: index.php?controller=user&action=index_users");
+            //echo "User created successfully."; // change later for a view
+        } catch (Exception $e) {
+            die("Error creating user: " . $e->getMessage());
         }
     }
 }

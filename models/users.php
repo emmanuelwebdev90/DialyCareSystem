@@ -5,24 +5,24 @@ require_once './core/crud.php';
 class Users extends CRUD
 {
     public function __construct(
-        public int $id = 0,
-        public String $nombre_completo = "",
-        public String $email = "",
-        public String $password_hash = "",
+        public mixed $id = '0',
+        public mixed $nombre_completo = "",
+        public mixed $email = "",
+        public mixed $password_hash = "",
         public int $rol_id = 0,
-        public String $activo = "",
+        public mixed $activo = "",
 
     ) {
         parent::__construct('usuarios');
     }
 
-    private function HashPassword(String $password)
+    private function HashPassword(mixed $password)
     {
         # return password_hash($password, PASSWORD_BCRYPT);
         return password_hash($password, PASSWORD_DEFAULT);
     }
 
-    public function VerifyPassword(String $password, String $hash)
+    public function VerifyPassword(mixed $password, mixed $hash)
     {
         # verify if the password matches the hash for login purposes
         return password_verify($password, $hash);
@@ -44,14 +44,24 @@ class Users extends CRUD
 
     public function updateUser()
     {
-        $set = "nombre_completo = :nombre_completo, email = :email, password_hash = :password_hash, rol_id = :rol_id, activo = :activo";
+        $set = "nombre_completo = :nombre_completo, email = :email, rol_id = :rol_id, activo = :activo";
         $data = [
 
             ':nombre_completo' => $this->nombre_completo,
             ':email' => $this->email,
-            ':password_hash' => $this->HashPassword($this->password_hash), // Hash the password before storing it in the database
+            
             ':rol_id' => $this->rol_id,
             ':activo' => ($this->activo),
+            ':id' => $this->id
+        ];
+        $this->update($set, $data);
+    }
+
+     public function updateUserPassword()
+    {
+        $set = "password_hash = :password_hash";
+        $data = [
+            ':password_hash' => $this->HashPassword($this->password_hash), // Hash the password before storing it in the database
             ':id' => $this->id
         ];
         $this->update($set, $data);
@@ -71,7 +81,7 @@ class Users extends CRUD
         return $this->readAll();
     }
 
-    public function getUserByEmail(String $email)
+    public function getUserByEmail(mixed $email)
     {
         // Fetch a user by email for login purposes 
         // Use prepared statements to prevent SQL injection

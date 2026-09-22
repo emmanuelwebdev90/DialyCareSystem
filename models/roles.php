@@ -3,8 +3,8 @@ require_once './core/crud.php';
 
 class Roles extends CRUD {
     public function __construct(
-        public int $id=0,
-        public String $nombre_rol=""
+        public  $id='0',
+        public  $nombre_rol=""
     ) {
         parent::__construct('roles');
     }
@@ -31,8 +31,8 @@ class Roles extends CRUD {
         $this->delete($this->id);
     }
 
-    public function getRoleById() {
-        return $this->readById($this->id);
+    public function getRoleById(mixed $id) {
+        return $this->readById($id);
     }
     public function getAll(){
         return $this->readAll();

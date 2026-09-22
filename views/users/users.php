@@ -114,7 +114,14 @@
                                 </div>
 
                             </td>
-                            <td></td>
+                            <td>
+                                <div class="group_actions">
+                                    <a href="index.php?controller=user&action=form_create_user&user=<?= $user->id ?>" class="edit"><i class="fa-solid fa-pen"></i></a>
+                                    <a href="#" class="delete"><i class="fa-solid fa-trash-can"></i></a>
+                                </div>
+
+
+                            </td>
 
                         </tr>
                     <?php endforeach; ?>
@@ -123,7 +130,7 @@
         </section>
         <section class="action-form">
             <div class="content">
-                <a class="button-success" href="index.php?controller=user&action=form_create_user">Registrar Usuario</a>
+                <a class="button-success" href="index.php?controller=user&action=form_create_user"><i class="fa-solid fa-circle-user"></i>Registrar Usuario</a>
             </div>
             <?php if (isset($_REQUEST['message'])): ?>
                 <br>

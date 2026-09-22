@@ -1,12 +1,12 @@
 <?php
 require_once './core/config.php';
 class Connection {
-    private $driver = DB_DRIVER;
-    private $host = DB_HOST;
-    private $user = DB_USER;
-    private $password = DB_PASSWORD;
-    private $database = DB_NAME;
-    private $charset = DB_CHARSET;
+    private mixed $driver = DB_DRIVER;
+    private mixed $host = DB_HOST;
+    private mixed $user = DB_USER;
+    private mixed $password = DB_PASSWORD;
+    private mixed $database = DB_NAME;
+    private mixed $charset = DB_CHARSET;
 
     protected function connect() {
         try {

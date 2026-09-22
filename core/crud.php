@@ -3,10 +3,10 @@ require_once('./core/connection.php');
 
 class CRUD extends Connection
 {
-    public $pdo;
+    public mixed $pdo;
 
     public function __construct(
-        public String $table
+        public  $table
     ) {
 
         $this->pdo = $this->connect();
@@ -23,7 +23,7 @@ class CRUD extends Connection
         }
     }
 
-    public function readById(int $id)
+    public function readById(mixed $id)
     {
         try {
             $stmt = $this->pdo->prepare("SELECT * FROM {$this->table} WHERE id = :id");
@@ -35,7 +35,7 @@ class CRUD extends Connection
         }
     }
 
-    public function delete(int $id)
+    public function delete(mixed $id)
     {
         try {
             $stmt = $this->pdo->prepare("DELETE FROM {$this->table} WHERE id = :id");
@@ -46,7 +46,7 @@ class CRUD extends Connection
         }
     }
 
-    public function create(String $columns, String $values, array $data)
+    public function create(mixed $columns,mixed  $values,mixed  $data)
     {
         try {
             $stm = $this->pdo->prepare("INSERT INTO {$this->table} ({$columns}) VALUES ({$values})");
@@ -59,7 +59,7 @@ class CRUD extends Connection
         }
     }
 
-    public function update(String $set, array $data)
+    public function update(mixed $set, mixed $data)
     {
         try {
             $stmt = $this->pdo->prepare("UPDATE {$this->table} SET {$set} WHERE id = :id");
