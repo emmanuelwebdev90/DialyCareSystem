@@ -96,16 +96,27 @@ class UserController extends Users
             $this->id = $_POST['id'];
             $this->nombre_completo = $_POST['nombre_completo'];
             $this->email = $_POST['email'];
-         
+
             $this->rol_id = $_POST['rol_id'];
             $this->activo = $_POST['activo'];
 
             $this->updateUser();
 
             $message = ['type' => 'alert', 'message' => 'Usuario Actualizado', 'class' => 'a-success'];
-            
+
             header("location: index.php?controller=user&action=index_users");
             //echo "User created successfully."; // change later for a view
+        } catch (Exception $e) {
+            die("Error creating user: " . $e->getMessage());
+        }
+    }
+    public function delete_user()
+    {
+        try {
+
+            $this->id = $_POST['id_user'];
+            $this->deleteUser();
+            header("location: index.php?controller=user&action=index_users");
         } catch (Exception $e) {
             die("Error creating user: " . $e->getMessage());
         }

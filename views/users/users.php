@@ -8,54 +8,7 @@
     <link rel="stylesheet" href="./public/styles/main.css">
     <link rel="stylesheet" href="./public/styles/navbar.css">
     <link rel="stylesheet" href="./public/styles/forms.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            /*border: 2px solid rgb(140 140 140);*/
-            border-radius: 12px;
-            font-size: 0.8rem;
-            letter-spacing: 1px;
-        }
 
-        caption {
-            caption-side: bottom;
-            padding: 10px;
-            font-weight: bold;
-        }
-
-        thead,
-        tfoot {
-            background-color: #EFF4FF;
-        }
-
-        thead th {
-            padding: 14px 16px;
-
-        }
-
-        td {
-            /*border: 1px solid rgb(160 160 160);
-            */
-            padding: 8px 10px;
-        }
-
-        td:last-of-type {
-            text-align: center;
-        }
-
-        tbody>tr:hover {
-            background-color: #EFF4FF;
-        }
-
-        tfoot th {
-            text-align: right;
-        }
-
-        tfoot td {
-            font-weight: bold;
-        }
-    </style>
 </head>
 
 <body>
@@ -117,7 +70,7 @@
                             <td>
                                 <div class="group_actions">
                                     <a href="index.php?controller=user&action=form_create_user&user=<?= $user->id ?>" class="edit"><i class="fa-solid fa-pen"></i></a>
-                                    <a href="#" class="delete"><i class="fa-solid fa-trash-can"></i></a>
+                                    <a href="#" class="delete" onclick="openDeleteModal('<?= $user->id ?>','<?= $user->nombre_completo ?>', this)"><i class="fa-solid fa-trash-can"></i></a>
                                 </div>
 
 
@@ -142,9 +95,59 @@
             <?php endif ?>
         </section>
     </div>
-
+    <?php require_once('./views/users/delete_modal.php') ?>
     <script src="https://kit.fontawesome.com/415cf4c5ff.js" crossorigin="anonymous"></script>
+    <script>
+        const deleteModal = document.getElementById("deleteModal");
+        const userToDelete = document.getElementById("userToDelete");
+        const idUserToDelete = document.getElementById("id_user");
+        const cancelDeleteButton = document.getElementById("cancelDelete");
+        const confirmDeleteButton = document.getElementById("confirmDelete");
 
+        let selectedUserButton = null;
+
+        function openDeleteModal(id, userName, button) {
+            selectedUserButton = button;
+            userToDelete.textContent = userName;
+            idUserToDelete.value = id;
+            deleteModal.hidden = false;
+            document.body.style.overflow = "hidden";
+        }
+
+        function closeDeleteModal() {
+            deleteModal.hidden = true;
+            document.body.style.overflow = "";
+            selectedUserButton = null;
+        }
+
+        cancelDeleteButton.addEventListener("click", closeDeleteModal);
+
+        confirmDeleteButton.addEventListener("click", function() {
+            if (selectedUserButton) {
+                const row = selectedUserButton.closest("tr");
+
+                if (row) {
+                    row.remove();
+                }
+            }
+
+            closeDeleteModal();
+        });
+
+        // Cierra el modal al hacer clic fuera de su contenido
+        deleteModal.addEventListener("click", function(event) {
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+        });
+
+        // Permite cerrar el modal con la tecla Escape
+        document.addEventListener("keydown", function(event) {
+            if (event.key === "Escape" && !deleteModal.hidden) {
+                closeDeleteModal();
+            }
+        });
+    </script>
 </body>
 
 </html>

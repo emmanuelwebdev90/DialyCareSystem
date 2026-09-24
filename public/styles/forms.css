@@ -174,9 +174,11 @@ form {
     padding: 2px 8px;
 }
 .button-success {
+    text-align: center;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    gap:8px;
+    justify-content: center;
     cursor: pointer;
     background-color: #00685F;
     color: #fff;
