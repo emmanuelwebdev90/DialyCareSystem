@@ -69,6 +69,10 @@
                             </td>
                             <td>
                                 <div class="group_actions">
+                                    <?php
+                                    if ($user->rol_id == 2): ?>
+                                        <a href="index.php?controller=paciente&action=index&usuario=<?= $user->id ?>" class="edit"><i class="fa-solid fa-file-lines"></i></a>
+                                    <?php endif; ?>
                                     <a href="index.php?controller=user&action=form_create_user&user=<?= $user->id ?>" class="edit"><i class="fa-solid fa-pen"></i></a>
                                     <a href="#" class="delete" onclick="openDeleteModal('<?= $user->id ?>','<?= $user->nombre_completo ?>', this)"><i class="fa-solid fa-trash-can"></i></a>
                                 </div>

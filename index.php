@@ -1,5 +1,8 @@
 <?php
 
+date_default_timezone_set('US/Central');
+
+
 if (file_exists('controller/user_controller.php')) {
     $controller = $_REQUEST['controller'] ?? 'user';
     $action = $_REQUEST['action'] ?? 'index_users';
